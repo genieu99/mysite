@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import guestbook.vo.GuestbookVo;
+import com.poscodx.mysite.vo.GuestbookVo;
 
 public class GuestbookDao {
 	
