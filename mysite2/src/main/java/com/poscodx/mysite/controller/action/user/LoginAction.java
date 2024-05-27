@@ -32,6 +32,7 @@ public class LoginAction implements Action {
 		HttpSession session = request.getSession();
 		session.setAttribute("authUser", authUser);
 		
+		// 문유진 바보~~ 바다의 보물
 		// redirect to main
 		response.sendRedirect(request.getContextPath());
 	}
