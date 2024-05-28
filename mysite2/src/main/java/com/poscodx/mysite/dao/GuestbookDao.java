@@ -11,7 +11,7 @@ import java.util.List;
 import com.poscodx.mysite.vo.GuestbookVo;
 
 public class GuestbookDao {
-	
+
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
 		
