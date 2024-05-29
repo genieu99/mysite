@@ -63,7 +63,7 @@ public class GuestbookDao {
 				GuestbookVo guestbookVo = new GuestbookVo();
 				guestbookVo.setNo(no);
 				guestbookVo.setName(name);
-				guestbookVo.setContents(contents.replace("\n", "<br>"));
+				guestbookVo.setContents(contents);
 				guestbookVo.setReg_date(reg_date);
 				
 				result.add(guestbookVo);
