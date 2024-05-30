@@ -95,34 +95,46 @@ public class BoardDao {
 		return result;
 	}
 
-	public void deleteByNoAndPassword(Long no, String password) {
-		try (
-				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("delete from guestbook where no = ? and password = ?");
-		) {
-			pstmt.setLong(1, no);
-			pstmt.setString(2, password);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("error: " + e);
-		}
-	}
-
 	public BoardVo findByNo(Long no) {
 		BoardVo boardVo = new BoardVo();
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select no, title, name, hit, reg_date from board where no = ?");
-				ResultSet rs = pstmt.executeQuery();
+				PreparedStatement pstmt = conn.prepareStatement("select no, title, hit, reg_date, contents from board where no = ?");
 		) {
 			pstmt.setLong(1, no);
-			pstmt.executeUpdate();
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				Long boardNo = rs.getLong(1);
+				String title = rs.getString(2);
+				int hit = rs.getInt(3);
+				String regDate = rs.getString(4);
+				String contents = rs.getString(5);
+				
+				boardVo.setNo(boardNo);
+				boardVo.setTitle(title);
+				boardVo.setHit(hit);
+				boardVo.setRegDate(regDate);
+				boardVo.setContents(contents);
+			}
 			
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
 		}
 		
 		return boardVo;
+	}
+
+	public void deleteByNo(Long no) {
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("delete from board where no = ?");
+		) {
+			pstmt.setLong(1, no);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
 	}
 }

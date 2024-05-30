@@ -9,17 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.poscodx.mysite.controller.ActionServlet.Action;
 import com.poscodx.mysite.dao.BoardDao;
 
-public class ViewAction implements Action {
+public class DeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String sno = request.getParameter("no");
-		Long no = Long.parseLong(sno);
 		
-		request.setAttribute("detail", new BoardDao().findByNo(no));
-		request
-			.getRequestDispatcher("/WEB-INF/views/board/view.jsp")
-			.forward(request, response);
+		new BoardDao().deleteByNo(Long.parseLong(sno));
+		response.sendRedirect(request.getContextPath() + "/board");
 	}
 
 }
