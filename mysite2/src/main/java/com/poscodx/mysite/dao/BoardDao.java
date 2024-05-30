@@ -100,7 +100,7 @@ public class BoardDao {
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select no, title, hit, reg_date, contents from board where no = ?");
+				PreparedStatement pstmt = conn.prepareStatement("select no, title, hit, reg_date, contents, user_no from board where no = ?");
 		) {
 			pstmt.setLong(1, no);
 			ResultSet rs = pstmt.executeQuery();
@@ -111,12 +111,14 @@ public class BoardDao {
 				int hit = rs.getInt(3);
 				String regDate = rs.getString(4);
 				String contents = rs.getString(5);
+				Long userNo = rs.getLong(6);
 				
 				boardVo.setNo(boardNo);
 				boardVo.setTitle(title);
 				boardVo.setHit(hit);
 				boardVo.setRegDate(regDate);
 				boardVo.setContents(contents);
+				boardVo.setUserNo(userNo);
 			}
 			
 		} catch (SQLException e) {
