@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.poscodx.mysite.controller.ActionServlet.Action;
-import com.poscodx.mysite.dao.BoardDao;
 import com.poscodx.mysite.vo.UserVo;
 
-public class ModifyAction implements Action {
+public class WriteFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,9 +28,8 @@ public class ModifyAction implements Action {
 			return;
 		}
 		
-		request.setAttribute("no", new BoardDao().findByNo());
 		request
-			.getRequestDispatcher("/WEB-INF/views/board/modify.jsp")
+			.getRequestDispatcher("/WEB-INF/views/board/write.jsp")
 			.forward(request, response);
 	}
 

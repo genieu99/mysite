@@ -6,10 +6,13 @@ public class BoardVo {
 	private String contents;
 	private int hit;
 	private String regDate;
-	private Long g_no;
-	private Long o_no;
+	private Long groupNo;
+	private Long orderNo;
 	private int depth;
-	private Long user_no;
+	private Long userNo;
+	private String userName;
+	
+	
 	
 	public Long getNo() {
 		return no;
@@ -41,17 +44,17 @@ public class BoardVo {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Long getG_no() {
-		return g_no;
+	public Long getGroupNo() {
+		return groupNo;
 	}
-	public void setG_no(Long g_no) {
-		this.g_no = g_no;
+	public void setGroupNo(Long groupNo) {
+		this.groupNo = groupNo;
 	}
-	public Long getO_no() {
-		return o_no;
+	public Long getOrderNo() {
+		return orderNo;
 	}
-	public void setO_no(Long o_no) {
-		this.o_no = o_no;
+	public void setOrderNo(Long orderNo) {
+		this.orderNo = orderNo;
 	}
 	public int getDepth() {
 		return depth;
@@ -59,13 +62,19 @@ public class BoardVo {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
-	public Long getUser_no() {
-		return user_no;
+	public Long getUserNo() {
+		return userNo;
 	}
-	public void setUser_no(Long user_no) {
-		this.user_no = user_no;
+	public void setUserNo(Long userNo) {
+		this.userNo = userNo;
 	}
-	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString();

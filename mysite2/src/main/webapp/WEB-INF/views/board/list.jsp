@@ -36,15 +36,15 @@
 								<c:if test="${vo.depth > 0}">
 									<img src='${pageContext.request.contextPath}/assets/images/reply.png'>
 								</c:if>
-								<a href="${pageContext.request.contextPath}/board/a=view?no=${vo.no}">${vo.title }</a>
+								<a href="${pageContext.request.contextPath}/board?a=view&no=${vo.no}">${vo.title }</a>
 							</td>
-							<td>${vo.user_no }</td>
+							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<%-- <c:if test="${vo.user_no == sessionScope.authUser.no}">
-								<td><a href="${pageContext.request.contextPath}/board/a=delete?no=${vo.no}" class="del">삭제</a></td>	
+							<c:if test="${vo.userNo == sessionScope.authUser.no}">
+								<td><a href="${pageContext.request.contextPath}/board?a=delete&no=${vo.no}" class="del">삭제</a></td>	
 							</c:if>
-							<c:otherwise>
+							<%-- <c:otherwise>
 								<td></td>
 							</c:otherwise> --%>
 						</tr>
@@ -66,7 +66,7 @@
 				<!-- pager 추가 -->
 				
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath}/board?a=writeform" id="new-book">글쓰기</a>
 				</div>				
 			</div>
 		</div>
