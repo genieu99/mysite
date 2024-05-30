@@ -41,12 +41,14 @@
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<c:if test="${vo.userNo == sessionScope.authUser.no}">
-								<td><a href="${pageContext.request.contextPath}/board?a=delete&no=${vo.no}" class="del">삭제</a></td>	
-							</c:if>
-							<%-- <c:otherwise>
-								<td></td>
-							</c:otherwise> --%>
+							<c:choose>
+								<c:when test="${vo.userNo == authUser.no}">
+									<td><a href="${pageContext.request.contextPath}/board?a=delete&no=${vo.no}" class="del">삭제</a></td>
+								</c:when>
+								<c:otherwise>
+									<td></td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 					</c:forEach>
 				</table>

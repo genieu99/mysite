@@ -13,8 +13,7 @@ public class BoardServlet extends ActionServlet {
 	private Map<String, Action> mapAction = Map.of(
 			"writeform", new WriteFormAction(),
 			"write", new WriteAction(),
-			"boardform", new ViewAction()
-//			"board-form", new ModifyAction()
+			"view", new ViewAction()
 	);
 	
 	@Override

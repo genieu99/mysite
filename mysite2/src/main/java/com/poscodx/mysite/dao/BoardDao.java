@@ -67,7 +67,7 @@ public class BoardDao {
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select board.no, board.title, user.name, board.hit, board.reg_date from board inner join user on board.user_no = user.no order by g_no desc, o_no asc limit 0, 5");
+				PreparedStatement pstmt = conn.prepareStatement("select board.no, board.title, user.name, board.hit, board.reg_date, user.no from board inner join user on board.user_no = user.no order by g_no desc, o_no asc limit 0, 5");
 				ResultSet rs = pstmt.executeQuery();
 		) {
 			while (rs.next()) {
@@ -76,6 +76,7 @@ public class BoardDao {
 				String userName = rs.getString(3);
 				int hit = rs.getInt(4);
 				String regDate = rs.getString(5);
+				Long userNo = rs.getLong(6);
 				
 				BoardVo boardVo = new BoardVo();
 				boardVo.setNo(no);
@@ -83,6 +84,7 @@ public class BoardDao {
 				boardVo.setUserName(userName);
 				boardVo.setHit(hit);
 				boardVo.setRegDate(regDate);
+				boardVo.setUserNo(userNo);
 				
 				result.add(boardVo);
 			}
@@ -106,27 +108,17 @@ public class BoardDao {
 		}
 	}
 
-	public BoardVo findByNo() {
+	public BoardVo findByNo(Long no) {
 		BoardVo boardVo = new BoardVo();
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select board.no, board.title, user.name, board.hit, board.reg_date from board inner join user on board.user_no = user.no order by g_no desc, o_no asc limit 0, 5");
+				PreparedStatement pstmt = conn.prepareStatement("select no, title, name, hit, reg_date from board where no = ?");
 				ResultSet rs = pstmt.executeQuery();
 		) {
-			while (rs.next()) {
-				Long no = rs.getLong(1);
-				String title = rs.getString(2);
-				String userName = rs.getString(3);
-				int hit = rs.getInt(4);
-				String regDate = rs.getString(5);
-				
-				boardVo.setNo(no);
-				boardVo.setTitle(title);
-				boardVo.setUserName(userName);
-				boardVo.setHit(hit);
-				boardVo.setRegDate(regDate);
-			}
+			pstmt.setLong(1, no);
+			pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			System.out.println("error: " + e);
 		}
