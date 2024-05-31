@@ -14,7 +14,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="reply-form" method="post" action="${pageContext.request.contextPath}/board">
+				<form class="board-form" method="post" action="${pageContext.request.contextPath}/board">
 					<input type = "hidden" name = "a" value="reply">
 					<input type = "hidden" name = "groupNo" value="${origin.groupNo }">
 					<input type = "hidden" name = "orderNo" value="${origin.orderNo }">
