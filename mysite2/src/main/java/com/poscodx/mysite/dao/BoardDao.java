@@ -41,20 +41,25 @@ public class BoardDao {
 		}
 	}
 	
-	public void reply(BoardVo vo) {
-		Long groupNo = vo.getGroupNo();
-		Long orderNo = vo.getOrderNo() + 1;
-		int depth = vo.getDepth() + 1;
+	public void reply(BoardVo boardVo) {
+		System.out.println(boardVo.getGroupNo());
+		System.out.println(boardVo.getOrderNo());
+		System.out.println(boardVo.getDepth());
+		
+		Long groupNo = boardVo.getGroupNo();
+		Long orderNo = boardVo.getOrderNo() + 1;
+		int depth = boardVo.getDepth() + 1;
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt1 = conn.prepareStatement("update board set o_no = o_no + 1 where g_no = " + groupNo + " and o_no = " + orderNo);
-				PreparedStatement pstmt2 = conn.prepareStatement("insert into board(title, contents, reg_date, g_no, o_no, depth) values(?, ?, now(), " + groupNo +", " + orderNo + ", " + depth)
+				PreparedStatement pstmt1 = conn.prepareStatement("update board set o_no = o_no + 1 where g_no = " + groupNo + " and o_no > " + orderNo);
+				PreparedStatement pstmt2 = conn.prepareStatement("insert into board(title, contents, hit, reg_date, g_no, o_no, depth, user_no) values(?, ?, 0, now(), " + groupNo +", " + orderNo + ", " + depth + ", ?)")
 		){
 			pstmt1.executeUpdate();
 			
-			pstmt2.setString(1, vo.getTitle());
-			pstmt2.setString(2, vo.getContents());
+			pstmt2.setString(1, boardVo.getTitle());
+			pstmt2.setString(2, boardVo.getContents());
+			pstmt2.setLong(3, boardVo.getUserNo());
 			pstmt2.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -67,7 +72,7 @@ public class BoardDao {
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select board.no, board.title, user.name, board.hit, board.reg_date, user.no from board inner join user on board.user_no = user.no order by g_no desc, o_no asc limit 0, 5");
+				PreparedStatement pstmt = conn.prepareStatement("select board.no, board.title, user.name, board.hit, board.reg_date, user.no, board.depth from board inner join user on board.user_no = user.no order by g_no desc, o_no asc limit 0, 15");
 				ResultSet rs = pstmt.executeQuery();
 		) {
 			while (rs.next()) {
@@ -77,6 +82,7 @@ public class BoardDao {
 				int hit = rs.getInt(4);
 				String regDate = rs.getString(5);
 				Long userNo = rs.getLong(6);
+				int depth = rs.getInt(7);
 				
 				BoardVo boardVo = new BoardVo();
 				boardVo.setNo(no);
@@ -85,6 +91,7 @@ public class BoardDao {
 				boardVo.setHit(hit);
 				boardVo.setRegDate(regDate);
 				boardVo.setUserNo(userNo);
+				boardVo.setDepth(depth);
 				
 				result.add(boardVo);
 			}
@@ -100,7 +107,7 @@ public class BoardDao {
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select no, title, hit, reg_date, contents, user_no from board where no = ?");
+				PreparedStatement pstmt = conn.prepareStatement("select no, title, hit, reg_date, contents, user_no, g_no, o_no, depth from board where no = ?");
 		) {
 			pstmt.setLong(1, no);
 			ResultSet rs = pstmt.executeQuery();
@@ -112,6 +119,9 @@ public class BoardDao {
 				String regDate = rs.getString(4);
 				String contents = rs.getString(5);
 				Long userNo = rs.getLong(6);
+				Long groupNo = rs.getLong(7);
+				Long orderNo = rs.getLong(8);
+				int depth = rs.getInt(9);
 				
 				boardVo.setNo(boardNo);
 				boardVo.setTitle(title);
@@ -119,6 +129,9 @@ public class BoardDao {
 				boardVo.setRegDate(regDate);
 				boardVo.setContents(contents);
 				boardVo.setUserNo(userNo);
+				boardVo.setGroupNo(groupNo);
+				boardVo.setOrderNo(orderNo);
+				boardVo.setDepth(depth);
 			}
 			
 		} catch (SQLException e) {
