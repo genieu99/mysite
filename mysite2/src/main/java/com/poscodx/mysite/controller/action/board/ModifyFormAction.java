@@ -9,10 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import com.poscodx.mysite.controller.ActionServlet.Action;
 import com.poscodx.mysite.dao.BoardDao;
-import com.poscodx.mysite.vo.BoardVo;
 import com.poscodx.mysite.vo.UserVo;
 
-public class ModifyAction implements Action {
+public class ModifyFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,19 +28,14 @@ public class ModifyAction implements Action {
 			response.sendRedirect(request.getContextPath());
 			return;
 		}
-
+		
 		String sno = request.getParameter("no");
 		Long no = Long.parseLong(sno);
-		String title = request.getParameter("title");
-		String contents = request.getParameter("contents");
 		
-		BoardVo boardVo = new BoardVo();
-		boardVo.setNo(no);
-		boardVo.setTitle(title);
-		boardVo.setContents(contents);
-		
-		new BoardDao().update(boardVo);
-		response.sendRedirect(request.getContextPath() + "/board");
+		request.setAttribute("updateVo", new BoardDao().findByNo(no));
+		request
+			.getRequestDispatcher("/WEB-INF/views/board/modify.jsp")
+			.forward(request, response);
 	}
 
 }

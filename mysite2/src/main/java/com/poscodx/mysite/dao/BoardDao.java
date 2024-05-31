@@ -139,4 +139,17 @@ public class BoardDao {
 			System.out.println("error: " + e);
 		}
 	}
+
+	public void update(BoardVo boardVo) {
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("update board set title = ?, contents = ?, reg_date = now() where no = " + boardVo.getNo());
+		) {
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContents());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+	}
 }
