@@ -165,4 +165,16 @@ public class BoardDao {
 			System.out.println("error: " + e);
 		}
 	}
+
+	public void updateHitByNo(BoardVo boardVo) {
+		int viewCount = boardVo.getHit() + 1;
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("update board set hit = " + viewCount + " where no = " + boardVo.getNo());
+		) {
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+	}
 }

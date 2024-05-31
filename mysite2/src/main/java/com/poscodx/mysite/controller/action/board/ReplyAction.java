@@ -30,6 +30,7 @@ public class ReplyAction implements Action {
 			return;
 		}
 		
+//		쿼리를 2번 날려야되므로 좋지 않음
 //		String sno = request.getParameter("no");
 //		Long no = Long.parseLong(sno);
 //		BoardVo originVo = new BoardDao().findByNo(no);

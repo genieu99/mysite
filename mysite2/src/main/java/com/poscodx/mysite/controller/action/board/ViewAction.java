@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.poscodx.mysite.controller.ActionServlet.Action;
 import com.poscodx.mysite.dao.BoardDao;
+import com.poscodx.mysite.vo.BoardVo;
 
 public class ViewAction implements Action {
 
@@ -16,7 +17,10 @@ public class ViewAction implements Action {
 		String sno = request.getParameter("no");
 		Long no = Long.parseLong(sno);
 		
-		request.setAttribute("detail", new BoardDao().findByNo(no));
+		BoardVo boardVo = new BoardDao().findByNo(no);
+		new BoardDao().updateHitByNo(boardVo);
+		
+		request.setAttribute("detail", boardVo);
 		request
 			.getRequestDispatcher("/WEB-INF/views/board/view.jsp")
 			.forward(request, response);
