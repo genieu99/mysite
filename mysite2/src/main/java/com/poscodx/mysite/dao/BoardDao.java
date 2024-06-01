@@ -53,7 +53,7 @@ public class BoardDao {
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt1 = conn.prepareStatement("update board set o_no = o_no + 1 where g_no = " + groupNo + " and o_no > " + orderNo);
+				PreparedStatement pstmt1 = conn.prepareStatement("update board set o_no = o_no + 1 where g_no = " + groupNo + " and o_no >= " + orderNo);
 				PreparedStatement pstmt2 = conn.prepareStatement("insert into board(title, contents, hit, reg_date, g_no, o_no, depth, user_no) values(?, ?, 0, now(), " + groupNo +", " + orderNo + ", " + depth + ", ?)")
 		){
 			pstmt1.executeUpdate();
