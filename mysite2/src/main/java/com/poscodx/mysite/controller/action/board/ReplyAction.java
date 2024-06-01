@@ -61,7 +61,7 @@ public class ReplyAction implements Action {
 		boardVo.setDepth(depth);
 		
 		new BoardDao().reply(boardVo);
-		response.sendRedirect(request.getContextPath() + "/board");
+		response.sendRedirect(request.getContextPath() + "/board?a=list&p=1");
 	}
 
 }

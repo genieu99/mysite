@@ -31,7 +31,7 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="${pageContext.request.contextPath}/board">글목록</a>
+					<a href="${pageContext.request.contextPath}/board?p=${paging.currentPage }">글목록</a>
 					<c:if test="${detail.userNo == authUser.no}">
 						<a href="${pageContext.request.contextPath}/board?a=modifyform&no=${detail.no }">글수정</a>
 					</c:if>

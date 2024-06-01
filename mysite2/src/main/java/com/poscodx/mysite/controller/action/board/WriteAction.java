@@ -39,7 +39,7 @@ public class WriteAction implements Action {
 		boardVo.setUserNo(authUser.getNo());
 		
 		new BoardDao().insert(boardVo);
-		response.sendRedirect(request.getContextPath() + "/board");
+		response.sendRedirect(request.getContextPath() + "/board?a=list&p=1");
 	}
 
 }

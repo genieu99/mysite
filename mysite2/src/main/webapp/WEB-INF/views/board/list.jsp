@@ -28,7 +28,7 @@
 						<th>&nbsp;</th>
 					</tr>
 					
-					<c:set var="count" value="${fn:length(list) }" />
+					<c:set var="count" value="${page.index }" />
 					<c:forEach items="${list }" var="vo" varStatus="status">			
 						<tr>
 							<td>[${count - status.index }]</td>
@@ -54,17 +54,7 @@
 				</table>
 				
 				<!-- pager 추가 -->
-				<div class="pager">
-					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
-					</ul>
-				</div>					
+				<c:import url="/WEB-INF/views/includes/page.jsp"></c:import>	
 				<!-- pager 추가 -->
 				
 				<div class="bottom">

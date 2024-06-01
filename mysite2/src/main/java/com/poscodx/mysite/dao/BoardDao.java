@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.poscodx.mysite.vo.BoardVo;
+import com.poscodx.mysite.vo.PageVo;
 
 public class BoardDao {
 	
@@ -67,12 +68,32 @@ public class BoardDao {
 		}
 	}
 	
-	public List<BoardVo> findAll() {
+	public int countBoard() {
+		int totalBoard = 0;
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select count(*) from board");
+				ResultSet rs = pstmt.executeQuery();
+		) {
+			if (rs.next()) {
+				totalBoard = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+		
+		return totalBoard;
+	}
+	
+	public List<BoardVo> findAll(int currentPage) {
+		int perPage = PageVo.getPerPage();
+		
 		List<BoardVo> result = new ArrayList<>();
 		
 		try (
 				Connection conn = getConnection();
-				PreparedStatement pstmt = conn.prepareStatement("select board.no, board.title, user.name, board.hit, board.reg_date, user.no, board.depth from board inner join user on board.user_no = user.no order by g_no desc, o_no asc limit 0, 15");
+				PreparedStatement pstmt = conn.prepareStatement("select board.no, board.title, user.name, board.hit, board.reg_date, user.no, board.depth from board inner join user on board.user_no = user.no order by g_no desc, o_no asc limit " + (currentPage - 1) * perPage + ", " + perPage);
 				ResultSet rs = pstmt.executeQuery();
 		) {
 			while (rs.next()) {
