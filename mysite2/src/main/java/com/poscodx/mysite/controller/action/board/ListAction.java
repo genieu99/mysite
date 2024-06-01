@@ -19,7 +19,7 @@ public class ListAction implements Action {
 		int totalBoard = new BoardDao().countBoard();
 		
 		int currentPage = Integer.parseInt(request.getParameter("p"));
-		int startPage = (currentPage - 1) / pageBlock + 1;
+		int startPage = ((currentPage - 1) / pageBlock) * pageBlock + 1;
 		int endPage = startPage + pageBlock - 1;
 		int maxPage = (totalBoard % perPage == 0) ? totalBoard / perPage : (totalBoard / perPage) + 1;
 		
