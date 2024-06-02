@@ -29,6 +29,9 @@ public class ModifyAction implements Action {
 			response.sendRedirect(request.getContextPath());
 			return;
 		}
+		
+		String spageNo = request.getParameter("p");
+		Long pageNo = Long.parseLong(spageNo);
 
 		String sno = request.getParameter("no");
 		Long no = Long.parseLong(sno);
@@ -41,7 +44,7 @@ public class ModifyAction implements Action {
 		boardVo.setContents(contents);
 		
 		new BoardDao().update(boardVo);
-		response.sendRedirect(request.getContextPath() + "/board");
+		response.sendRedirect(request.getContextPath() + "/board?a=list&p=" + pageNo);
 	}
 
 }

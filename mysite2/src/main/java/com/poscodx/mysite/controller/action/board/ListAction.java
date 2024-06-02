@@ -29,6 +29,7 @@ public class ListAction implements Action {
 		boolean nextTab = endPage < maxPage;
 		
 		PageVo pageVo = new PageVo();
+		pageVo.setCurrentPage(currentPage);
 		pageVo.setStartPage(startPage);
 		pageVo.setStartPage(startPage);
 		pageVo.setEndPage(endPage);

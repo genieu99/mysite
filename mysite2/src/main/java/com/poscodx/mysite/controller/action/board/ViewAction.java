@@ -14,6 +14,11 @@ public class ViewAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String spageNo = request.getParameter("p");
+		Long pageNo = Long.parseLong(spageNo);
+		
+		request.setAttribute("page", pageNo);
+		
 		String sno = request.getParameter("no");
 		Long no = Long.parseLong(sno);
 		

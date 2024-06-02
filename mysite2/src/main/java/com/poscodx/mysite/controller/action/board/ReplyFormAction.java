@@ -29,6 +29,11 @@ public class ReplyFormAction implements Action {
 			return;
 		}
 		
+		String spageNo = request.getParameter("p");
+		Long pageNo = Long.parseLong(spageNo);
+		
+		request.setAttribute("page", pageNo);
+		
 		String sno = request.getParameter("no");
 		Long no = Long.parseLong(sno);
 		
