@@ -2,7 +2,7 @@ package com.poscodx.mysite.vo;
 
 public class PageVo {
 	private static int pageBlock = 5;
-	private static int perPage = 4;
+	private static int perPage = 5;
 	private int currentPage;
 	private int startPage;
 	private int endPage;
