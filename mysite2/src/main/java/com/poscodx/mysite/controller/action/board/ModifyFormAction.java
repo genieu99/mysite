@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.poscodx.mysite.controller.ActionServlet.Action;
 import com.poscodx.mysite.dao.BoardDao;
+import com.poscodx.mysite.vo.BoardVo;
 import com.poscodx.mysite.vo.UserVo;
 
 public class ModifyFormAction implements Action {
@@ -37,7 +38,9 @@ public class ModifyFormAction implements Action {
 		String sno = request.getParameter("no");
 		Long no = Long.parseLong(sno);
 		
-		request.setAttribute("updateVo", new BoardDao().findByNo(no));
+		BoardVo boardVo = new BoardDao().findByNoAndUserNo(no, authUser.getNo());
+		
+		request.setAttribute("updateVo", boardVo);
 		request
 			.getRequestDispatcher("/WEB-INF/views/board/modify.jsp")
 			.forward(request, response);

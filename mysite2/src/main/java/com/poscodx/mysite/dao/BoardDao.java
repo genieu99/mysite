@@ -173,6 +173,46 @@ public class BoardDao {
 			System.out.println("error: " + e);
 		}
 	}
+	
+	public BoardVo findByNoAndUserNo(Long boardNo, Long userNo) {
+		BoardVo boardVo = new BoardVo();
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select no, title, hit, reg_date, contents, user_no, g_no, o_no, depth from board where no = ? and user_no = ?");
+		) {
+			pstmt.setLong(1, boardNo);
+			pstmt.setLong(2, userNo);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				Long board_no = rs.getLong(1);
+				String title = rs.getString(2);
+				int hit = rs.getInt(3);
+				String regDate = rs.getString(4);
+				String contents = rs.getString(5);
+				Long user_no = rs.getLong(6);
+				Long groupNo = rs.getLong(7);
+				Long orderNo = rs.getLong(8);
+				int depth = rs.getInt(9);
+				
+				boardVo.setNo(board_no);
+				boardVo.setTitle(title);
+				boardVo.setHit(hit);
+				boardVo.setRegDate(regDate);
+				boardVo.setContents(contents);
+				boardVo.setUserNo(user_no);
+				boardVo.setGroupNo(groupNo);
+				boardVo.setOrderNo(orderNo);
+				boardVo.setDepth(depth);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		}
+		
+		return boardVo;
+	}
 
 	public void update(BoardVo boardVo) {
 		try (
