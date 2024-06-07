@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poscodx.mysite.service.BoardService;
 import com.poscodx.mysite.vo.UserVo;
@@ -22,15 +23,16 @@ public class BoardController {
 	}
 	
 	@RequestMapping("")
-	public String index(Model model) {
-		Map map = boardService.getContentsList();
-		model.addAllAttribute(map);
-		retrun "board/index"
+	public String index(@RequestParam(value="p", required=true, defaultValue="1") int pageNo, Model model) {
+		Map<String, Object> map = boardService.getContentsList(pageNo);
+		model.addAllAttributes(map);
+		return "board/index";
 	}
-	
+
 	@RequestMapping("/veiw/{no}")
-	public String view(@PathVariable("no") Long no) {
-		
+	public String view(@RequestParam(value="p", required=true, defaultValue="1") int pageNo, @PathVariable("no") Long no) {
+		boardService.getContents(no);
+		return "board/view";
 	}
 	
 	@RequestMapping("/delete/{no}")
@@ -40,5 +42,21 @@ public class BoardController {
 		if (authUser == null) {
 			return "redirect:/";
 		}
+		
+		boardService.deleteContents(no, authUser.getNo());
+		return "board/index";
 	}
+	
+	@RequestMapping("/update/{no}")
+	public String update(HttpSession session, @PathVariable("no") Long no) {
+		// access control
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
+			return "redirect:/";
+		}
+		
+		boardService.getContents(no, authUser.getNo());
+		return "board/index";
+	}
+
 }
