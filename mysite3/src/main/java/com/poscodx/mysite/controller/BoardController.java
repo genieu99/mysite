@@ -39,6 +39,7 @@ public class BoardController {
 		return "board/write";
 	}
 	
+	@Auth
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String add(HttpSession session, @ModelAttribute BoardVo boardVo, @RequestParam(value="p", required=true, defaultValue="1") Integer page) {
 		// access control
@@ -61,6 +62,7 @@ public class BoardController {
 		return "board/view";
 	}
 	
+	@Auth
 	@RequestMapping("/delete/{no}")
 	public String delete(HttpSession session, @PathVariable("no") Long no) {
 		// access control
@@ -73,9 +75,9 @@ public class BoardController {
 		return "board/index";
 	}
 	
+	@Auth
 	@RequestMapping("/update/{no}")
 	public String update(HttpSession session, @PathVariable("no") Long no) {
-		// access control
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if (authUser == null) {
 			return "redirect:/";
@@ -85,14 +87,9 @@ public class BoardController {
 		return "board/index";
 	}
 	
+	@Auth
 	@RequestMapping(value="/reply/{no}")
-	public String reply(HttpSession session,@PathVariable("no") Long no, @RequestParam(value="p", required=true, defaultValue="1") Integer page, Model model) {
-		// access control
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String reply(@PathVariable("no") Long no, @RequestParam(value="p", required=true, defaultValue="1") Integer page, Model model) {
 		BoardVo boardVo = boardService.getContents(no);
 		boardVo.setOrderNo(boardVo.getOrderNo() + 1);
 		boardVo.setDepth(boardVo.getDepth() + 1);
