@@ -25,9 +25,9 @@ public class BoardService {
 		if (vo.getGroupNo() != null) {
 			boardRepository.replyUpdate(vo);
 			boardRepository.replyInsert(vo);
+		} else {
+			boardRepository.insert(vo);
 		}
-		
-		boardRepository.insert(vo);
 	}
 	
 	public BoardVo getContents(Long no) {

@@ -6,7 +6,7 @@
 	<ul>
 		<c:choose>
 			<c:when test="${page.previousTab }">
-				<li><a href="${pageContext.servletContext.contextPath }/board?a=list&p=${page.startPage - 1}">◀</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/board?p=${page.startPage - 1}">◀</a></li>
 			</c:when>
 			<c:otherwise>
 				<li>◀</li>
@@ -24,7 +24,7 @@
 			</c:choose>
 			<c:choose>
 				<c:when test="${no <= page.maxPage }">
-					<a href="${pageContext.servletContext.contextPath }/board?a=list&p=${no}">${no}</a>
+					<a href="${pageContext.servletContext.contextPath }/board?p=${no}">${no}</a>
 				</c:when>
 				<c:otherwise>
 					${no }
@@ -35,7 +35,7 @@
 		
 		<c:choose>
 			<c:when test="${page.nextTab }">
-				<li><a href="${pageContext.servletContext.contextPath }/board?a=list&p=${page.endPage + 1}">▶</a></li>
+				<li><a href="${pageContext.servletContext.contextPath }/board?p=${page.endPage + 1}">▶</a></li>
 			</c:when>
 			<c:otherwise>
 				<li>▶</li>

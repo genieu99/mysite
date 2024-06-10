@@ -6,11 +6,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poscodx.mysite.service.BoardService;
+import com.poscodx.mysite.vo.BoardVo;
 import com.poscodx.mysite.vo.UserVo;
 
 @Controller
@@ -28,6 +31,32 @@ public class BoardController {
 		model.addAllAttributes(map);
 		return "board/index";
 	}
+	
+	@RequestMapping(value="/add", method=RequestMethod.GET)
+	public String add(HttpSession session) {
+		// access control
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
+			return "redirect:/";
+		}
+		return "board/write";
+	}
+	
+	@RequestMapping(value="/add", method=RequestMethod.POST)
+	public String add(HttpSession session, @ModelAttribute BoardVo boardVo, @RequestParam(value="p", required=true, defaultValue="1") Integer page) {
+		// access control
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
+			return "redirect:/";
+		}
+		
+		boardVo.setUserNo(authUser.getNo());
+		boardVo.setUserName(authUser.getName());
+		boardService.addContents(boardVo);
+		
+		return "redirect:/board?p=" + page;
+	}
+	
 
 	@RequestMapping("/veiw/{no}")
 	public String view(@RequestParam(value="p", required=true, defaultValue="1") int pageNo, @PathVariable("no") Long no) {
@@ -57,6 +86,22 @@ public class BoardController {
 		
 		boardService.getContents(no, authUser.getNo());
 		return "board/index";
+	}
+	
+	@RequestMapping(value="/reply/{no}")
+	public String reply(HttpSession session,@PathVariable("no") Long no, @RequestParam(value="p", required=true, defaultValue="1") Integer page, Model model) {
+		// access control
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (authUser == null) {
+			return "redirect:/";
+		}
+		
+		BoardVo boardVo = boardService.getContents(no);
+		boardVo.setOrderNo(boardVo.getOrderNo() + 1);
+		boardVo.setDepth(boardVo.getDepth() + 1);
+		model.addAttribute("boardVo", boardVo);
+		
+		return "board/reply/p=" + page;
 	}
 
 }

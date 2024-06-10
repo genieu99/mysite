@@ -6,7 +6,7 @@ insert into guestbook_log values(current_date, 1);
 
 select date(reg_date) from guestbook_log where no = 30;
 
-update guestbook_log set count = count - 1 where date = (select date(reg_date) from guestbook where no = 30);
+update guestbook_log set count = count - 1 where date = (select date(reg_date) from guestbook where no = 33);
 
 select * from guestbook;
 select * from guestbook_log;
