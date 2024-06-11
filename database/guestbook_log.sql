@@ -1,4 +1,4 @@
-
+select * from board;
 
 -- guestbook_log
 update guestbook_log set count = count + 1 where date = current_date();

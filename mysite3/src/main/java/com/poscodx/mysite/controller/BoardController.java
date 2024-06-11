@@ -2,8 +2,6 @@ package com.poscodx.mysite.controller;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poscodx.mysite.security.Auth;
+import com.poscodx.mysite.security.AuthUser;
 import com.poscodx.mysite.service.BoardService;
 import com.poscodx.mysite.vo.BoardVo;
 import com.poscodx.mysite.vo.UserVo;
@@ -27,7 +26,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping("")
-	public String index(@RequestParam(value="p", required=true, defaultValue="1") int pageNo, Model model) {
+	public String index(@RequestParam(value="p", required=true, defaultValue="1") Integer pageNo, Model model) {
 		Map<String, Object> map = boardService.getContentsList(pageNo);
 		model.addAllAttributes(map);
 		return "board/index";
@@ -41,61 +40,47 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String add(HttpSession session, @ModelAttribute BoardVo boardVo, @RequestParam(value="p", required=true, defaultValue="1") Integer page) {
-		// access control
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String add(@AuthUser UserVo authUser, @ModelAttribute BoardVo boardVo, @RequestParam(value="p", required=true, defaultValue="1") Integer pageNo) {
 		boardVo.setUserNo(authUser.getNo());
 		boardVo.setUserName(authUser.getName());
 		boardService.addContents(boardVo);
 		
-		return "redirect:/board?p=" + page;
+		return "redirect:/board?p=" + pageNo;
 	}
 	
-
-	@RequestMapping("/veiw/{no}")
-	public String view(@RequestParam(value="p", required=true, defaultValue="1") int pageNo, @PathVariable("no") Long no) {
-		boardService.getContents(no);
+	@RequestMapping("/view/{no}")
+	public String view(@PathVariable("no") Long no, Model model) {
+		BoardVo boardVo = boardService.getContents(no);
+		System.out.println(boardVo.toString());
+		model.addAttribute("detail", boardVo);
 		return "board/view";
 	}
 	
 	@Auth
 	@RequestMapping("/delete/{no}")
-	public String delete(HttpSession session, @PathVariable("no") Long no) {
-		// access control
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String delete(
+			@AuthUser UserVo authUser, 
+			@PathVariable("no") Long no) {
 		boardService.deleteContents(no, authUser.getNo());
 		return "board/index";
 	}
 	
 	@Auth
 	@RequestMapping("/update/{no}")
-	public String update(HttpSession session, @PathVariable("no") Long no) {
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if (authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String update(@AuthUser UserVo authUser, @PathVariable("no") Long no) {
 		boardService.getContents(no, authUser.getNo());
 		return "board/index";
 	}
 	
 	@Auth
 	@RequestMapping(value="/reply/{no}")
-	public String reply(@PathVariable("no") Long no, @RequestParam(value="p", required=true, defaultValue="1") Integer page, Model model) {
+	public String reply(@PathVariable("no") Long no, @RequestParam(value="p", required=true, defaultValue="1") Integer pageNo, Model model) {
 		BoardVo boardVo = boardService.getContents(no);
 		boardVo.setOrderNo(boardVo.getOrderNo() + 1);
 		boardVo.setDepth(boardVo.getDepth() + 1);
 		model.addAttribute("boardVo", boardVo);
 		
-		return "board/reply/p=" + page;
+		return "board/reply/p=" + pageNo;
 	}
 
 }

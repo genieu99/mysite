@@ -10,6 +10,10 @@ select no, name from user where email = 'moonjin0419@gmail.com' and password = p
 -- test
 select * from user;
 
+-- role 추가
+alter table user add column role enum('ADMIN', 'USER') not null default 'USER';
+update user set role='ADMIN' where no = 1;
+
 -- guestbook
 insert into guestbook values(null, '문상훈', '1234', '내가 니 삼촌이다!', now());
 
