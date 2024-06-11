@@ -63,8 +63,8 @@ public class BoardRepository {
 		sqlSession.delete("board.delete", Map.of("no", no, "userNo", userNo));
 	}
 
-	public void update(BoardVo vo) {
-		sqlSession.update("board.update", vo);
+	public void modify(BoardVo vo) {
+		sqlSession.update("board.modify", vo);
 	}
 
 	public void updateHitByNo(BoardVo vo) {

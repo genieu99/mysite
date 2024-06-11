@@ -63,10 +63,20 @@ public class BoardController {
 	}
 	
 	@Auth
-	@RequestMapping("/update/{no}")
-	public String update(@AuthUser UserVo authUser, @PathVariable("no") Long no) {
-		boardService.getContents(no, authUser.getNo());
-		return "board/index";
+	@RequestMapping("/modify/{no}")
+	public String modify(@AuthUser UserVo authUser, @PathVariable("no") Long no, Model model) {
+		BoardVo boardVo = boardService.getContents(no, authUser.getNo()); 
+		model.addAttribute("boardVo", boardVo);
+		return "board/modify";
+	}
+	
+	@Auth
+	@RequestMapping(value="/modify", method=RequestMethod.POST)
+	public String modify(@AuthUser UserVo authUser, BoardVo boardVo, @RequestParam(value="p", required=true, defaultValue="1") Integer pageNo) {
+		boardVo.setUserNo(authUser.getNo());
+		boardVo.setUserName(authUser.getName());
+		boardService.modifyContents(boardVo);
+		return "redirect:/board/view/" + boardVo.getNo() + "?p=" + pageNo;
 	}
 	
 	@Auth

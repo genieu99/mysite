@@ -42,8 +42,8 @@ public class BoardService {
 		return boardRepository.findByNoAndUserNo(boardNo, userNo);
 	}
 	
-	public void updateContents(BoardVo vo) {
-		boardRepository.update(vo);
+	public void modifyContents(BoardVo vo) {
+		boardRepository.modify(vo);
 	}
 	
 	public void deleteContents(Long boardNo, Long userNo) {
