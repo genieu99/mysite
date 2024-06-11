@@ -51,18 +51,15 @@ public class BoardController {
 	@RequestMapping("/view/{no}")
 	public String view(@PathVariable("no") Long no, Model model) {
 		BoardVo boardVo = boardService.getContents(no);
-		System.out.println(boardVo.toString());
 		model.addAttribute("detail", boardVo);
 		return "board/view";
 	}
 	
 	@Auth
 	@RequestMapping("/delete/{no}")
-	public String delete(
-			@AuthUser UserVo authUser, 
-			@PathVariable("no") Long no) {
+	public String delete(@AuthUser UserVo authUser, @PathVariable("no") Long no, @RequestParam(value="p", required=true, defaultValue="1") Integer pageNo) {
 		boardService.deleteContents(no, authUser.getNo());
-		return "board/index";
+		return "redirect:/board?p=" + pageNo;
 	}
 	
 	@Auth

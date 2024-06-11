@@ -49,9 +49,9 @@
 		]]>
 	</select>
 	
-	<delete id="deleteByNo" parameterType="long">
+	<delete id="delete" parameterType="map">
 		<![CDATA[
-			delete from board where no = #{no }
+			delete from board where no = #{no } and user_no = #{userNo }
 		]]>
 	</delete>
 	

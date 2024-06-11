@@ -59,8 +59,8 @@ public class BoardRepository {
 		return sqlSession.selectOne("board.findByNoAndUserNo", Map.of("boardNo", boardNo, "userNo", userNo));
 	}
 
-	public void deleteByNo(Long no) {
-		sqlSession.delete("board.deleteByNo", no);
+	public void delete(Long no, Long userNo) {
+		sqlSession.delete("board.delete", Map.of("no", no, "userNo", userNo));
 	}
 
 	public void update(BoardVo vo) {

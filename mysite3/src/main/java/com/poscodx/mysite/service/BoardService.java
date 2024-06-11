@@ -47,7 +47,7 @@ public class BoardService {
 	}
 	
 	public void deleteContents(Long boardNo, Long userNo) {
-		boardRepository.deleteByNo(boardNo);
+		boardRepository.delete(boardNo, userNo);
 	}
 	
 	public Map<String, Object> getContentsList(int currentPage) {
