@@ -81,13 +81,14 @@ public class BoardController {
 	
 	@Auth
 	@RequestMapping(value="/reply/{no}")
-	public String reply(@PathVariable("no") Long no, @RequestParam(value="p", required=true, defaultValue="1") Integer pageNo, Model model) {
+	public String reply(@PathVariable("no") Long no, Model model) {
 		BoardVo boardVo = boardService.getContents(no);
 		boardVo.setOrderNo(boardVo.getOrderNo() + 1);
 		boardVo.setDepth(boardVo.getDepth() + 1);
-		model.addAttribute("boardVo", boardVo);
 		
-		return "board/reply/p=" + pageNo;
+		model.addAttribute("origin", boardVo);
+		
+		return "board/reply";
 	}
 
 }
