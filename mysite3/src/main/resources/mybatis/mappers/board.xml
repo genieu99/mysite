@@ -3,10 +3,20 @@
 
 <mapper namespace="board">
 	<insert id="insert" parameterType="boardvo">
-		<![CDATA[
-			insert into board(title, contents, hit, reg_date, g_no, o_no, depth, user_no)
-			values(#{title }, #{contents }, 0, now(), (select ifnull(max(g_no), 0) + 1 from board as subquery), 1, 0, #{userNo })
-		]]>
+		<choose>
+			<when test="groupNo == null">
+				<![CDATA[
+					insert into board(title, contents, hit, reg_date, g_no, o_no, depth, user_no)
+					values(#{title }, #{contents }, 0, now(), (select ifnull(max(g_no), 0) + 1 from board as subquery), 1, 0, #{userNo })
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					insert into board
+					values(null, #{title }, #{contents }, 0, now(), #{groupNo }, #{orderNo }, #{depth }, #{userNo })
+				]]>
+			</otherwise>
+		</choose>
 	</insert>
 	
 	<update id="replyUpdate" parameterType="map">
@@ -14,13 +24,6 @@
 			update board set o_no = o_no + 1 where g_no = #{groupNo } and o_no >= #{orderNo }
 		]]>
 	</update>
-	
-	<insert id="replyInsert" parameterType="boardvo">
-		<![CDATA[
-			insert into board(title, contents, hit, reg_date, g_no, o_no, depth, user_no)
-			values(#{title }, #{contents }, 0, now(), #{groupNo }, #{orderNo }, #{depth }, #{userNo })
-		]]>
-	</insert>
 	
 	<select id="countBoard" resultType="int">
 		<![CDATA[

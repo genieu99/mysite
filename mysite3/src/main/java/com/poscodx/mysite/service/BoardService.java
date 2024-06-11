@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.poscodx.mysite.repository.BoardRepository;
 import com.poscodx.mysite.vo.BoardVo;
@@ -21,13 +22,14 @@ public class BoardService {
 		this.pageService = pageService;
 	}
 	
+	@Transactional
 	public void addContents(BoardVo vo) {
 		if (vo.getGroupNo() != null) {
 			boardRepository.replyUpdate(vo);
-			boardRepository.replyInsert(vo);
-		} else {
-			boardRepository.insert(vo);
+			System.out.println(vo.getOrderNo());
 		}
+		
+		boardRepository.insert(vo);
 	}
 	
 	public BoardVo getContents(Long no) {

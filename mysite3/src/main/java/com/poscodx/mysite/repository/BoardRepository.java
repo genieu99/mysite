@@ -24,20 +24,9 @@ public class BoardRepository {
 	
 	public void replyUpdate(BoardVo vo) {		
 		Long groupNo = vo.getGroupNo();
-		Long orderNo = vo.getOrderNo() + 1;
+		Long orderNo = vo.getOrderNo();
 		
 		sqlSession.update("board.replyUpdate", Map.of("groupNo", groupNo, "orderNo", orderNo));
-	}
-	
-	public void replyInsert(BoardVo vo) {
-//		Long groupNo = vo.getGroupNo();
-		Long orderNo = vo.getOrderNo() + 1;
-		int depth = vo.getDepth() + 1;
-
-		vo.setOrderNo(orderNo);
-		vo.setDepth(depth);
-		
-		sqlSession.insert("board.replyInsert", vo);
 	}
 	
 	public int countBoard() {
