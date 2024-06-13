@@ -2,9 +2,12 @@ package com.poscodx.mysite.vo;
 
 public class UserVo {
 	private Long no;
+	
 	private String name;
 	private String email;
 	private String password;
+	
+	
 	private String gender;
 	private String joinDate;
 	private String role;
