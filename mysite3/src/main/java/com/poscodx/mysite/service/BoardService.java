@@ -26,7 +26,6 @@ public class BoardService {
 	public void addContents(BoardVo vo) {
 		if (vo.getGroupNo() != null) {
 			boardRepository.replyUpdate(vo);
-			System.out.println(vo.getOrderNo());
 		}
 		
 		boardRepository.insert(vo);
