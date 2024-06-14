@@ -44,7 +44,7 @@ public class UserController {
 //				model.addAttribute(key, map.get(key));
 //			}
 			
-			model.addAllAttributes(result.getModel());
+			model.addAllAttributes(map);
 			
 			return "user/join";
 		}
