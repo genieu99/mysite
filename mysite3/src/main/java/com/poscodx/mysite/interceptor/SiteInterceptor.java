@@ -12,6 +12,7 @@ import com.poscodx.mysite.vo.SiteVo;
 
 public class SiteInterceptor implements HandlerInterceptor {
 	
+	@Autowired
 	private LocaleResolver localeResolver;
 	
 	@Autowired
@@ -27,6 +28,7 @@ public class SiteInterceptor implements HandlerInterceptor {
 		
 		// Locale
 		System.out.println("resolver-locale: " + localeResolver.resolveLocale(request).getLanguage());
+		
 		return true;
 	}
 
