@@ -23,6 +23,19 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
 	
+	// View Resolver
+	@Bean
+	public ViewResolver viewResolver() {
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+		viewResolver.setViewClass(JstlView.class);
+		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setSuffix(".jsp");
+		viewResolver.setExposeContextBeansAsAttributes(true);
+		viewResolver.setExposedContextBeanNames("site");
+		
+		return viewResolver;
+	}
+	
 	// Message Converters
 	@Bean
 	public StringHttpMessageConverter stringHttpMessageConverter() {
