@@ -24,7 +24,7 @@ public class LocaleConfig {
 	@Bean
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-		messageSource.setBasename("com/poscodx/mysite/config/web/messages/message");
+		messageSource.setBasenames("com/poscodx/mysite/config/web/messages/message");
 		messageSource.setDefaultEncoding("utf-8");
 		
 		return messageSource;
