@@ -21,7 +21,7 @@
 			}
 
 			$.ajax({
-				url: "/mysite3/user/api/checkemail?email=" + email,
+				url: "/mysite4/user/api/checkemail?email=" + email,
 				type: "get",
 				dataType: "json",
 				error: function(xhr, status, err) {

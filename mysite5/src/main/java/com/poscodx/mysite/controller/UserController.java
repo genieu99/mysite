@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,7 +65,13 @@ public class UserController {
 	
 	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(@AuthUser UserVo authUser, Model model) {
+	public String update(Authentication authentication, Model model) {
+		
+		1. SecurityContextHolder(Spring Security Thread)
+		
+		2. HttpSession 기반
+		
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		UserVo vo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", vo);
 		
@@ -80,12 +87,12 @@ public class UserController {
 		return "redirect:/user/update";
 	}
 	
-	@RequestMapping("/auth")
-	public void auth() {
-	}
-	
-	@RequestMapping("/logout")
-	public void logout() {
-	}
+//	@RequestMapping("/auth")
+//	public void auth() {
+//	}
+//	
+//	@RequestMapping("/logout")
+//	public void logout() {
+//	}
 }
 
