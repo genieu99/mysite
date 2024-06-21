@@ -5,3 +5,4 @@ insert into site values(null, 'MySite', '안녕하세요. ""문유진""의 삼�
 select * from site;
 
 select title, welcome, profile, description from site order by no asc limit 0, 1;
+update site set title = "MOON", welcome = "하이루", profile = "ㅋㅋㅋ", description = "test" where no = 1;
