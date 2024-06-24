@@ -47,12 +47,12 @@ public class GlobalExceptionHandler {
 			// 4. 사과(종료)
 			if (e instanceof NoHandlerFoundException) {
 				request
-					.getRequestDispatcher("/WEB-INF/views/errors/404.jsp")
+					.getRequestDispatcher("/error/404")
 					.forward(request, response);
 			} else {
 				request.setAttribute("error", errors.toString());
 				request
-					.getRequestDispatcher("/WEB-INF/views/errors/exception.jsp")
+					.getRequestDispatcher("/error/500")
 					.forward(request, response);
 			}
 		}
