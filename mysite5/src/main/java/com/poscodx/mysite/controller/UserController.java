@@ -6,9 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,8 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.poscodx.mysite.security.Auth;
-import com.poscodx.mysite.security.AuthUser;
 import com.poscodx.mysite.service.UserService;
 import com.poscodx.mysite.vo.UserVo;
 
@@ -66,7 +61,6 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.GET)
 	public String update(Authentication authentication, Model model) {
 		
@@ -85,21 +79,15 @@ public class UserController {
 		return "user/update";
 	}
 	
-	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(@AuthUser UserVo authUser, UserVo vo) {
+	public String update(Authentication authentication, UserVo vo) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		vo.setNo(authUser.getNo());
+		
 		userService.update(vo);
+		
 		authUser.setName(vo.getName());
 		return "redirect:/user/update";
 	}
-	
-//	@RequestMapping("/auth")
-//	public void auth() {
-//	}
-//	
-//	@RequestMapping("/logout")
-//	public void logout() {
-//	}
 }
 
