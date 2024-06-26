@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-@PropertySource("classpath:com/poscodx/mysite/config/web/fileUpload.properties")
+@PropertySource("classpath:config/fileUpload.properties")
 public class FileUploadService {
 	
 	@Autowired
