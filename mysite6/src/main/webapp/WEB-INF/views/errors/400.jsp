@@ -6,9 +6,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Internal Server Error(500) : Custom</h1>
-	<pre style="color: #fe1100">
-		${error }
-	</pre>
+	<h1>Bad Request(400) : Custom</h1>
+	<p>
+		잘못된 접근입니다.
+	</p>
 </body>
 </html>

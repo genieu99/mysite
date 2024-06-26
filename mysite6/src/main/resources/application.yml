@@ -49,7 +49,7 @@ spring:
          minimum-idle: 10
          maximum-pool-size: 20
 
-#mybatis
+# mybatis
 mybatis:
    config-location: classpath:mybatis/configuration.xml
       
@@ -61,6 +61,10 @@ server:
       encoding:
          carset: utf-8
          enabled: true
+   error:
+      whitelabel:
+         enabled: false
+      path: /error
 
 # logging
 logging:
