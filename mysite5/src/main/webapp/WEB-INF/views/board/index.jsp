@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html>
@@ -41,14 +42,14 @@
 							<td>${vo.userName }</td>
 							<td>${vo.hit }</td>
 							<td>${vo.regDate }</td>
-							<c:choose>
-								<c:when test="${not empty authUser && vo.userNo == authUser.no}">
-									<td><a href="${pageContext.request.contextPath}/board/delete/${vo.no }?p=${page.currentPage }" class="del">삭제</a></td>
-								</c:when>
-								<c:otherwise>
-									<td></td>
-								</c:otherwise>
-							</c:choose>
+							<td>
+								<sec:authorize access="isAuthenticated()">
+									<sec:authentication property="principal" var="authUser" />
+									<c:if test="${authUser.no == vo.userNo }" >
+										<a href="${pageContext.request.contextPath}/board/delete/${vo.no }?p=${page.currentPage }" class="del">삭제</a>
+									</c:if>
+								</sec:authorize>
+							</td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -58,13 +59,9 @@
 				<!-- pager 추가 -->
 				
 				<div class="bottom">
-					<c:choose>
-						<c:when test="${empty authUser.no }">
-						</c:when>
-						<c:otherwise>
-							<a href="${pageContext.request.contextPath}/board/add" id="new-book">글쓰기</a>
-						</c:otherwise>
-					</c:choose>
+					<sec:authorize access="isAuthenticated()">
+						<a href="${pageContext.request.contextPath}/board/add" id="new-book">글쓰기</a>
+					</sec:authorize>
 				</div>				
 			</div>
 		</div>

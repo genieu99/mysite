@@ -33,7 +33,7 @@
 				</table>
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath}/board?p=${param.p }">글목록</a>
-					<sec:authorize access="isAuthenicated()">
+					<sec:authorize access="isAuthenticated()">
 						<sec:authentication property="principal" var="authUser" />
 						<a href="${pageContext.request.contextPath}/board/reply/${detail.no }?p=${param.p }">답글쓰기</a>
 						<c:if test="${detail.userNo == authUser.no}">
